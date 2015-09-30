@@ -2,22 +2,22 @@
 
 namespace Solid.Principles
 {
-    public class BankAccountService
+    public interface IBankAccountService
     {
-        private readonly BankAccount account;
-        public BankAccountService(BankAccount bankAccount)
-        {
-            this.account = bankAccount;
-        }
-        
-        public void AddFunds(decimal value)
+        void AddFunds(BankAccount account, decimal value);
+        void RemoveFunds(BankAccount account, decimal value);
+    }
+    public class BankAccountService : IBankAccountService
+    {
+
+        public void AddFunds(BankAccount account, decimal value)
         {
             if (value <= 0)
                 throw new ArgumentException("The amount must be bigger than 0");
 
             account.Balance += value;
         }
-        public void RemoveFunds(decimal value)
+        public void RemoveFunds(BankAccount account, decimal value)
         {
             if (value <= 0)
                 throw new ArgumentException("The amount must be bigger than 0");
@@ -25,38 +25,40 @@ namespace Solid.Principles
         }
     }
 
-    public class Deposit
+    public interface IDeposit
     {
-        BankAccountService depositAccount;
-        private readonly decimal value;
-        public Deposit(BankAccount bankAccount, decimal amount)
+        void DepositFunds(BankAccount account, decimal value);
+    }
+    public class Deposit : IDeposit
+    {
+        public Deposit(IBankAccountService bankAccountService)
         {
-            depositAccount = new BankAccountService(bankAccount);
-            value = amount;
+            _bankAccountService = bankAccountService;
         }
+        IBankAccountService _bankAccountService;
 
-        public void DepositFunds()
+        public void DepositFunds(BankAccount account, decimal value)
         {
-            depositAccount.AddFunds(value);
+            _bankAccountService.AddFunds(account, value);
         }
     }
 
-    public class Transfer
+    public interface ITransfer
     {
-        BankAccountService sourceAccount;
-        BankAccountService destinationAccount;
-        private readonly decimal value;
-
-        public Transfer(BankAccount source, BankAccount destination, decimal _value)
+        void TransferFunds(BankAccount sourceAccount, BankAccount destinationAccount, decimal value);
+    }
+    public class Transfer : ITransfer
+    {
+        public Transfer(IBankAccountService bankAccountService)
         {
-            sourceAccount = new BankAccountService(source);
-            destinationAccount = new BankAccountService(destination);
-            this.value = _value;
+            _bankAccountService = bankAccountService;
         }
-        public void TransferFunds()
+        IBankAccountService _bankAccountService;
+
+        public void TransferFunds(BankAccount sourceAccount, BankAccount destinationAccount, decimal value)
         {
-            sourceAccount.RemoveFunds(value);
-            destinationAccount.AddFunds(value);
+            _bankAccountService.RemoveFunds(sourceAccount, value);
+            _bankAccountService.AddFunds(destinationAccount, value);
         }
     }
 }

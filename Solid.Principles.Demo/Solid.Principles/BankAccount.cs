@@ -2,20 +2,25 @@
 
 namespace Solid.Principles
 {
-    public abstract class BankAccount
+    public interface IBankAccount
+    {
+        void DeductBankCharges();
+    }
+    public abstract class BankAccount : IBankAccount
     {
         public int AccountNumber { get; set; }
         public decimal Balance { get; set; }
+
+        public abstract void DeductBankCharges();
     }
 
     public class SavingsAccount : BankAccount
     {
         public int FreeTransactions { get; set; } // TO COMPLECATE CONSIDER THIS: free withdraws, free swipes, etc.. ALSO CONSIDER charges for each transaction after free changes have been depleted
-        public SavingsAccount(int accNo, decimal balance, int freeTransactions)
+
+        public override void DeductBankCharges()
         {
-            AccountNumber = accNo;
-            Balance = balance;
-            FreeTransactions = freeTransactions;
+            throw new NotImplementedException();
         }
     }
 
@@ -30,11 +35,10 @@ namespace Solid.Principles
                 ExpireDate = value;
             }
         }
-        public ChequeAccount(int accNo, decimal balance)
+
+        public override void DeductBankCharges()
         {
-            AccountNumber = accNo;
-            Balance = balance;
-            _ExpireDate = DateTime.Now.AddMonths(50);
+            throw new NotImplementedException();
         }
     }
 }
