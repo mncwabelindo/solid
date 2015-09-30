@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Practices.Unity;
 
 namespace Solid.Principles
 {
@@ -10,6 +11,12 @@ namespace Solid.Principles
     {
         static void Main(string[] args)
         {
+            UnityContainer container = new UnityContainer();
+            container.RegisterType<IBankAccount, BankAccount>();
+            container.RegisterType<IBankAccountService, BankAccountService>();
+            container.RegisterType<IDeposit, Deposit>();
+            container.RegisterType<ITransfer, Transfer>();
+
             Random rand = new Random();
             var number = rand.Next(100000000, 999999999);
             BankAccount savings = new SavingsAccount()
@@ -21,8 +28,9 @@ namespace Solid.Principles
 
             ShowSavingsStatement(savings);
 
-            BankAccountManager manager = new BankAccountManager(new Deposit(new BankAccountService()),
-                new Transfer(new BankAccountService()));
+            //BankAccountManager manager = new BankAccountManager(new Deposit(new BankAccountService()),
+            //    new Transfer(new BankAccountService()));
+            BankAccountManager manager = container.Resolve<BankAccountManager>();
             manager.DepositFunds(savings, (decimal)400.00);
 
             WriteYellowLine("Deposit was successful");
