@@ -20,7 +20,7 @@ namespace Solid.Principles
 
         public override void DeductBankCharges()
         {
-            throw new NotImplementedException();
+            Balance -= (decimal)7.55;
         }
     }
 
@@ -38,7 +38,7 @@ namespace Solid.Principles
 
         public override void DeductBankCharges()
         {
-            throw new NotImplementedException();
+            Balance -= (decimal)107.90;
         }
     }
 }

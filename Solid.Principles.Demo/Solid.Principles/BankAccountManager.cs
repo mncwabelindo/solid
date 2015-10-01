@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace Solid.Principles
 {
-    public interface IBankAccountManager
+    public class BankAccountManagerA
     {
-        void DepositFunds(BankAccount account, decimal value);
-        void TransferFunds(BankAccount sourceAccount, BankAccount destinationAccount, decimal value);
-    }
-    public class BankAccountManager : IBankAccountManager
-    {
-        public BankAccountManager(IDeposit deposit, ITransfer transfer)
+        public BankAccountManagerA(IDeposit deposit, ITransfer transfer)
         {
             _deposit = deposit;
             _transfer = transfer;
@@ -28,6 +23,24 @@ namespace Solid.Principles
         public void TransferFunds(BankAccount sourceAccount, BankAccount destinationAccount, decimal value)
         {
             _transfer.TransferFunds(sourceAccount, destinationAccount, value);
+        }
+    }
+    
+    public class BankAccountManagerB : BankAccountManagerA
+    {
+        public BankAccountManagerB(IDeposit deposit, ITransfer transfer, IProcessCharges processCharges) : base(deposit, transfer)
+        {
+            _deposit = deposit;
+            _transfer = transfer;
+            _processCharges = processCharges;
+        }
+        IDeposit _deposit;
+        ITransfer _transfer;
+        IProcessCharges _processCharges;
+
+        public void ProcessCharges(BankAccount account)
+        {
+            _processCharges.ProcessAccountCharges(account);
         }
     }
 }

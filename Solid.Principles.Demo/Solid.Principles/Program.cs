@@ -30,7 +30,7 @@ namespace Solid.Principles
 
             //BankAccountManager manager = new BankAccountManager(new Deposit(new BankAccountService()),
             //    new Transfer(new BankAccountService()));
-            BankAccountManager manager = container.Resolve<BankAccountManager>();
+            BankAccountManagerB manager = container.Resolve<BankAccountManagerB>();
             manager.DepositFunds(savings, (decimal)400.00);
 
             WriteYellowLine("Deposit was successful");

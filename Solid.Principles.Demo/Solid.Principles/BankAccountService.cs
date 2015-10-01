@@ -61,4 +61,16 @@ namespace Solid.Principles
             _bankAccountService.AddFunds(destinationAccount, value);
         }
     }
+
+    public  interface IProcessCharges
+    {
+        void ProcessAccountCharges(BankAccount account);
+    }
+    public class ProcessCharges : IProcessCharges
+    {
+        public void ProcessAccountCharges(BankAccount account)
+        {
+            account.DeductBankCharges();
+        }
+    }
 }
