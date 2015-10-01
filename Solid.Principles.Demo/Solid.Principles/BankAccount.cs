@@ -4,23 +4,23 @@ namespace Solid.Principles
 {
     public interface IBankAccount
     {
-        void DeductBankCharges();
+        void DeductServiceFee();
     }
     public abstract class BankAccount : IBankAccount
     {
         public int AccountNumber { get; set; }
         public decimal Balance { get; set; }
 
-        public abstract void DeductBankCharges();
+        public abstract void DeductServiceFee();
     }
 
     public class SavingsAccount : BankAccount
     {
         public int FreeTransactions { get; set; } // TO COMPLECATE CONSIDER THIS: free withdraws, free swipes, etc.. ALSO CONSIDER charges for each transaction after free changes have been depleted
 
-        public override void DeductBankCharges()
+        public override void DeductServiceFee()
         {
-            Balance -= (decimal)7.55;
+            Balance -= (decimal)15.00;
         }
     }
 
@@ -36,7 +36,7 @@ namespace Solid.Principles
             }
         }
 
-        public override void DeductBankCharges()
+        public override void DeductServiceFee()
         {
             Balance -= (decimal)107.90;
         }

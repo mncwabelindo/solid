@@ -16,6 +16,7 @@ namespace Solid.Principles
             container.RegisterType<IBankAccountService, BankAccountService>();
             container.RegisterType<IDeposit, Deposit>();
             container.RegisterType<ITransfer, Transfer>();
+            container.RegisterType<IServiceFeeDeduction, ServiceFeeDeduction>();
 
             Random rand = new Random();
             var number = rand.Next(100000000, 999999999);
@@ -25,13 +26,16 @@ namespace Solid.Principles
                 Balance = (decimal)8904.67,
                 FreeTransactions = 21
             };
-
             ShowSavingsStatement(savings);
 
             Deposit dep = container.Resolve<Deposit>();
             dep.DepositFunds(savings, (decimal)400.00);
-
             WriteYellowLine("Deposit was successful");
+            ShowSavingsStatement(savings);
+
+            ServiceFeeDeduction fee = container.Resolve<ServiceFeeDeduction>();
+            fee.DeductServiceFee(savings);
+            WriteYellowLine("Deduction was successful");
             ShowSavingsStatement(savings);
         }
         static void ShowSavingsStatement(BankAccount savings)

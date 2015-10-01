@@ -62,15 +62,15 @@ namespace Solid.Principles
         }
     }
 
-    public  interface IProcessCharges
+    public  interface IServiceFeeDeduction
     {
-        void ProcessAccountCharges(BankAccount account);
+        void DeductServiceFee(BankAccount account);
     }
-    public class ProcessCharges : IProcessCharges
+    public class ServiceFeeDeduction : IServiceFeeDeduction
     {
-        public void ProcessAccountCharges(BankAccount account)
+        public void DeductServiceFee(BankAccount account)
         {
-            account.DeductBankCharges();
+            account.DeductServiceFee();
         }
     }
 }
