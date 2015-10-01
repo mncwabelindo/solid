@@ -28,10 +28,8 @@ namespace Solid.Principles
 
             ShowSavingsStatement(savings);
 
-            //BankAccountManager manager = new BankAccountManager(new Deposit(new BankAccountService()),
-            //    new Transfer(new BankAccountService()));
-            BankAccountManagerB manager = container.Resolve<BankAccountManagerB>();
-            manager.DepositFunds(savings, (decimal)400.00);
+            Deposit dep = container.Resolve<Deposit>();
+            dep.DepositFunds(savings, (decimal)400.00);
 
             WriteYellowLine("Deposit was successful");
             ShowSavingsStatement(savings);
